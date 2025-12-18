@@ -38,8 +38,8 @@ const validateId = (id: string): number | null => {
 // Get all patients with pagination, search, and status filter
 export const getAllPatients = async (req: Request, res: Response): Promise<void> => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 20;
+    const page = Math.max(1, parseInt(req.query.page as string) || 1);
+    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit as string) || 20));
     const search = (req.query.search as string) || '';
     const status = (req.query.status as string) || 'Active';
     const offset = (page - 1) * limit;
@@ -75,24 +75,29 @@ export const getAllPatients = async (req: Request, res: Response): Promise<void>
     const total = (countResult as any[])[0].total;
 
     // Get patients
+    // LIMIT and OFFSET must be integers in SQL string (not parameters)
+    const limitInt = parseInt(String(limit), 10);
+    const offsetInt = parseInt(String(offset), 10);
     const [rows] = await pool.execute(
       `SELECT ${PATIENT_SELECT_FIELDS} 
        FROM patients 
        ${whereClause}
        ORDER BY created_at DESC 
-       LIMIT ? OFFSET ?`,
-      [...params, limit, offset]
+       LIMIT ${limitInt} OFFSET ${offsetInt}`,
+      params
     );
     const patients = rows as Patient[];
 
     res.json({
       success: true,
-      data: patients,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit)
+      data: {
+        data: patients,
+        pagination: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit)
+        }
       }
     });
   } catch (error) {

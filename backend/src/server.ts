@@ -6,6 +6,12 @@ import patientRoutes from './routes/patient.routes';
 import doctorRoutes from './routes/doctor.routes';
 import appointmentRoutes from './routes/appointment.routes';
 import authRoutes from './routes/auth.routes';
+import patientAuthRoutes from './routes/patientAuth.routes';
+import prescriptionRoutes from './routes/prescription.routes';
+import billingRoutes from './routes/billing.routes';
+import medicalRecordRoutes from './routes/medicalRecord.routes';
+import labResultRoutes from './routes/labResult.routes';
+import facilityRoutes from './routes/facility.routes';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
 
 dotenv.config();
@@ -39,9 +45,15 @@ app.get('/api/test-db', async (req: Request, res: Response) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/patient-auth', patientAuthRoutes);
 app.use('/api/patients', patientRoutes);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/appointments', appointmentRoutes);
+app.use('/api/prescriptions', prescriptionRoutes);
+app.use('/api/billing', billingRoutes);
+app.use('/api/medical-records', medicalRecordRoutes);
+app.use('/api/lab-results', labResultRoutes);
+app.use('/api/facilities', facilityRoutes);
 
 // Error handling middleware (must be last)
 app.use(notFoundHandler);
@@ -62,6 +74,11 @@ const startServer = async () => {
       console.log(`   👥 Patients: http://localhost:${PORT}/api/patients`);
       console.log(`   👨‍⚕️ Doctors: http://localhost:${PORT}/api/doctors`);
       console.log(`   📅 Appointments: http://localhost:${PORT}/api/appointments`);
+      console.log(`   💊 Prescriptions: http://localhost:${PORT}/api/prescriptions`);
+      console.log(`   💰 Billing: http://localhost:${PORT}/api/billing`);
+      console.log(`   📋 Medical Records: http://localhost:${PORT}/api/medical-records`);
+      console.log(`   🧪 Lab Results: http://localhost:${PORT}/api/lab-results`);
+      console.log(`   🏥 Facilities: http://localhost:${PORT}/api/facilities`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);

@@ -1,7 +1,7 @@
-Seed Data
-USE Peter_healthcare_management_system;
+-- Seed Data
+-- USE Peter_healthcare_management_system; -- Commented out: MySQL-specific syntax, not needed for Oracle
 
-STAFF ROLES
+-- STAFF ROLES
 INSERT INTO staff_roles (role_name, description) VALUES
 ('Admin', 'System Administrator'),
 ('Doctor', 'Medical Doctor'),
@@ -12,7 +12,7 @@ INSERT INTO staff_roles (role_name, description) VALUES
 ('Radiologist', 'Radiology Specialist'),
 ('Accountant', 'Billing and Finance Staff');
 
-DEPARTMENTS
+-- DEPARTMENTS
 INSERT INTO departments (department_name, department_code, location, phone, email, description) VALUES
 ('Cardiology', 'CARD', 'Building A, Floor 2', '01-234-5678', 'cardiology@hospital.com', 'Heart and cardiovascular care'),
 ('Neurology', 'NEURO', 'Building A, Floor 3', '01-234-5679', 'neurology@hospital.com', 'Brain and nervous system care'),
@@ -24,7 +24,7 @@ INSERT INTO departments (department_name, department_code, location, phone, emai
 ('Laboratory', 'LAB', 'Building D, Floor 2', '01-234-5685', 'lab@hospital.com', 'Laboratory services'),
 ('Pharmacy', 'PHARM', 'Building C, Floor 1', '01-234-5686', 'pharmacy@hospital.com', 'Pharmacy services');
 
-STAFF
+-- STAFF
 INSERT INTO staff (employee_id, first_name, last_name, date_of_birth, gender, phone, email, address, city, country, hire_date, department_id, role_id, salary, status) VALUES
 ('EMP001', 'Ahmed', 'Al-Saud', '1980-05-15', 'M', '0501234567', 'ahmed.alsaud@hospital.com', '123 Main St', 'Riyadh', 'Saudi Arabia', '2020-01-15', 
     (SELECT department_id FROM departments WHERE department_code = 'CARD' LIMIT 1), 
@@ -57,13 +57,13 @@ INSERT INTO staff (employee_id, first_name, last_name, date_of_birth, gender, ph
     (SELECT department_id FROM departments WHERE department_code = 'CARD' LIMIT 1), 
     (SELECT role_id FROM staff_roles WHERE role_name = 'Admin' LIMIT 1), 18000.00, 'Active');
 
-Update departments with head of department
+-- Update departments with head of department
 UPDATE departments SET head_of_department = 1 WHERE department_id = 1;
 UPDATE departments SET head_of_department = 2 WHERE department_id = 2;
 UPDATE departments SET head_of_department = 3 WHERE department_id = 3;
 UPDATE departments SET head_of_department = 4 WHERE department_id = 4;
 
-DOCTOR SPECIALTIES
+-- DOCTOR SPECIALTIES
 INSERT INTO doctor_specialties (specialty_name, description, department_id) VALUES
 ('Cardiologist', 'Heart and cardiovascular specialist', 1),
 ('Neurologist', 'Brain and nervous system specialist', 2),
@@ -73,7 +73,7 @@ INSERT INTO doctor_specialties (specialty_name, description, department_id) VALU
 ('General Practitioner', 'General medical care', 6),
 ('Radiologist', 'Medical imaging specialist', 7);
 
-DOCTORS
+-- DOCTORS
 INSERT INTO doctors (staff_id, license_number, specialization_id, years_of_experience, consultation_fee, bio, status) VALUES
 (1, 'DOC-LIC-001', 1, 15, 500.00, 'Experienced cardiologist with expertise in heart diseases', 'Active'),
 (2, 'DOC-LIC-002', 2, 12, 450.00, 'Neurologist specializing in brain disorders', 'Active'),
@@ -81,7 +81,7 @@ INSERT INTO doctors (staff_id, license_number, specialization_id, years_of_exper
 (4, 'DOC-LIC-004', 4, 8, 400.00, 'Pediatrician with expertise in child healthcare', 'Active'),
 (5, 'DOC-LIC-005', 7, 13, 550.00, 'Radiologist specializing in medical imaging', 'Active');
 
-DOCTOR QUALIFICATIONS
+-- DOCTOR QUALIFICATIONS
 INSERT INTO doctor_qualifications (doctor_id, degree_type, institution_name, graduation_year, specialization, certificate_number) VALUES
 (1, 'MD', 'King Saud University', 2005, 'Cardiology', 'CERT-001'),
 (1, 'MBBS', 'King Saud University', 2000, 'General Medicine', 'CERT-002'),
@@ -91,7 +91,7 @@ INSERT INTO doctor_qualifications (doctor_id, degree_type, institution_name, gra
 (4, 'MD', 'Imam Muhammad Ibn Saud University', 2012, 'Pediatrics', 'CERT-006'),
 (5, 'MD', 'King Saud University', 2007, 'Radiology', 'CERT-007');
 
-DOCTOR SCHEDULES
+-- DOCTOR SCHEDULES
 INSERT INTO doctor_schedules (doctor_id, day_of_week, start_time, end_time, is_available, location, max_appointments) VALUES
 (1, 'Monday', '09:00:00', '17:00:00', TRUE, 'Cardiology Clinic A', 20),
 (1, 'Wednesday', '09:00:00', '17:00:00', TRUE, 'Cardiology Clinic A', 20),
@@ -113,17 +113,18 @@ INSERT INTO insurance_providers (provider_name, provider_code, contact_person, p
 ('AXA Cooperative', 'AXA', 'Sara Ahmed', '01-800-3456', 'contact@axa.com', 'Riyadh, Saudi Arabia', 'Active');
 
 -- PATIENTS
-INSERT INTO patients (national_id, first_name, last_name, date_of_birth, gender, blood_type, phone, email, address, city, country, marital_status, occupation, status) VALUES
-('1234567890', 'Ali', 'Al-Mutairi', '1985-03-15', 'M', 'O+', '0501111111', 'ali.almutairi@email.com', '100 Main Street', 'Riyadh', 'Saudi Arabia', 'Married', 'Engineer', 'Active'),
-('1234567891', 'Nora', 'Al-Shehri', '1990-07-22', 'F', 'A+', '0501111112', 'nora.alshehri@email.com', '200 King Road', 'Riyadh', 'Saudi Arabia', 'Single', 'Teacher', 'Active'),
-('1234567892', 'Khalid', 'Al-Harbi', '1978-11-08', 'M', 'B+', '0501111113', 'khalid.alharbi@email.com', '300 Prince Avenue', 'Riyadh', 'Saudi Arabia', 'Married', 'Businessman', 'Active'),
-('1234567893', 'Maha', 'Al-Qahtani', '1995-02-14', 'F', 'AB+', '0501111114', 'maha.alqahtani@email.com', '400 Queen Street', 'Riyadh', 'Saudi Arabia', 'Single', 'Student', 'Active'),
-('1234567894', 'Fahad', 'Al-Otaibi', '1982-09-30', 'M', 'A-', '0501111115', 'fahad.alotaibi@email.com', '500 Park Lane', 'Riyadh', 'Saudi Arabia', 'Married', 'Doctor', 'Active'),
-('1234567895', 'Lina', 'Al-Zahrani', '1988-05-18', 'F', 'O-', '0501111116', 'lina.alzahrani@email.com', '600 Garden Road', 'Riyadh', 'Saudi Arabia', 'Married', 'Nurse', 'Active'),
-('1234567896', 'Saud', 'Al-Shammari', '1992-12-25', 'M', 'B-', '0501111117', 'saud.alshammari@email.com', '700 Oak Street', 'Riyadh', 'Saudi Arabia', 'Single', 'Accountant', 'Active'),
-('1234567897', 'Reem', 'Al-Ghamdi', '1987-08-10', 'F', 'A+', '0501111118', 'reem.alghamdi@email.com', '800 Pine Avenue', 'Riyadh', 'Saudi Arabia', 'Married', 'Designer', 'Active'),
-('1234567898', 'Yousef', 'Al-Mansouri', '1975-04-05', 'M', 'O+', '0501111119', 'yousef.almansouri@email.com', '900 Elm Street', 'Riyadh', 'Saudi Arabia', 'Married', 'Manager', 'Active'),
-('1234567899', 'Hanan', 'Al-Rashid', '1993-01-20', 'F', 'AB-', '0501111120', 'hanan.alrashid@email.com', '1000 Maple Drive', 'Riyadh', 'Saudi Arabia', 'Single', 'Lawyer', 'Active');
+INSERT INTO patients (national_id, first_name, last_name, middle_name, date_of_birth, gender, blood_type, phone, email, address, city, country, postal_code, marital_status, occupation, status) VALUES
+('1234567890', 'Ali', 'Al-Mutairi', 'Ahmed', '1985-03-15', 'M', 'O+', '0501111111', 'ali.almutairi@email.com', '100 Main Street, Al Olaya District', 'Riyadh', 'Saudi Arabia', '12211', 'Married', 'Software Engineer', 'Active'),
+('1234567891', 'Nora', 'Al-Shehri', 'Fatima', '1990-07-22', 'F', 'A+', '0501111112', 'nora.alshehri@email.com', '200 King Road, Al Malaz', 'Riyadh', 'Saudi Arabia', '12624', 'Single', 'High School Teacher', 'Active'),
+('1234567892', 'Khalid', 'Al-Harbi', 'Mohammed', '1978-11-08', 'M', 'B+', '0501111113', 'khalid.alharbi@email.com', '300 Prince Avenue, Al Wurud', 'Riyadh', 'Saudi Arabia', '12284', 'Married', 'Business Owner', 'Active'),
+('1234567893', 'Maha', 'Al-Qahtani', 'Sarah', '1995-02-14', 'F', 'AB+', '0501111114', 'maha.alqahtani@email.com', '400 Queen Street, Al Naseem', 'Riyadh', 'Saudi Arabia', '12471', 'Single', 'Medical Student', 'Active'),
+('1234567894', 'Fahad', 'Al-Otaibi', 'Abdullah', '1982-09-30', 'M', 'A-', '0501111115', 'fahad.alotaibi@email.com', '500 Park Lane, Al Murabba', 'Riyadh', 'Saudi Arabia', '12631', 'Married', 'Cardiologist', 'Active'),
+('1234567895', 'Lina', 'Al-Zahrani', 'Mona', '1988-05-18', 'F', 'O-', '0501111116', 'lina.alzahrani@email.com', '600 Garden Road, Al Malqa', 'Riyadh', 'Saudi Arabia', '13521', 'Married', 'Registered Nurse', 'Active'),
+('1234567896', 'Saud', 'Al-Shammari', 'Faisal', '1992-12-25', 'M', 'B-', '0501111117', 'saud.alshammari@email.com', '700 Oak Street, Al Falah', 'Riyadh', 'Saudi Arabia', '11564', 'Single', 'Certified Public Accountant', 'Active'),
+('1234567897', 'Reem', 'Al-Ghamdi', 'Layla', '1987-08-10', 'F', 'A+', '0501111118', 'reem.alghamdi@email.com', '800 Pine Avenue, Al Rawdah', 'Riyadh', 'Saudi Arabia', '12814', 'Married', 'Graphic Designer', 'Active'),
+('1234567898', 'Yousef', 'Al-Mansouri', 'Sultan', '1975-04-05', 'M', 'O+', '0501111119', 'yousef.almansouri@email.com', '900 Elm Street, Al Shumaisi', 'Riyadh', 'Saudi Arabia', '12214', 'Married', 'Operations Manager', 'Active'),
+('1234567899', 'Hanan', 'Al-Rashid', 'Amira', '1993-01-20', 'F', 'AB-', '0501111120', 'hanan.alrashid@email.com', '1000 Maple Drive, Al Nakheel', 'Riyadh', 'Saudi Arabia', '12382', 'Single', 'Corporate Lawyer', 'Active'),
+('1234567900', 'Sarah', 'Al-Mutawa', 'Noor', '1991-06-12', 'F', 'B+', '0501111121', 'sarah.almutawa@email.com', '1100 Palm Boulevard, Al Hamra', 'Riyadh', 'Saudi Arabia', '12234', 'Married', 'Marketing Manager', 'Active');
 
 -- PATIENT INSURANCE
 INSERT INTO patient_insurance (patient_id, insurance_provider_id, policy_number, coverage_start_date, coverage_end_date, coverage_percentage, max_coverage_amount, deductible_amount, status) VALUES
@@ -392,5 +393,5 @@ INSERT INTO time_slots (slot_time, duration_minutes, is_active) VALUES
 ('15:30:00', 30, TRUE),
 ('16:00:00', 30, TRUE);
 
-End of Seed Data
+-- End of Seed Data
 

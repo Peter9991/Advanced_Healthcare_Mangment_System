@@ -1,0 +1,33 @@
+.language-toggle {
+  display: flex;
+  gap: 0.25rem;
+  background: #f0f0f0;
+  border-radius: 6px;
+  padding: 0.25rem;
+}
+
+.language-toggle button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  color: #666;
+}
+
+.language-toggle button:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.language-toggle button.active {
+  background: #007bff;
+  color: white;
+}
+
+[dir="rtl"] .language-toggle {
+  direction: rtl;
+}
+

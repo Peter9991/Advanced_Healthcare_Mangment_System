@@ -10,8 +10,8 @@ const validateId = (id: string): number | null => {
 // Get all appointments
 export const getAllAppointments = async (req: Request, res: Response): Promise<void> => {
   try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 20;
+    const page = Math.max(1, parseInt(req.query.page as string) || 1);
+    const limit = Math.max(1, Math.min(100, parseInt(req.query.limit as string) || 20));
     const doctorId = req.query.doctor_id ? validateId(req.query.doctor_id as string) : null;
     const patientId = req.query.patient_id ? validateId(req.query.patient_id as string) : null;
     const date = req.query.date as string;
@@ -43,6 +43,9 @@ export const getAllAppointments = async (req: Request, res: Response): Promise<v
     );
     const total = (countResult as any[])[0].total;
 
+    // LIMIT and OFFSET must be integers in SQL string (not parameters)
+    const limitInt = parseInt(String(limit), 10);
+    const offsetInt = parseInt(String(offset), 10);
     const [rows] = await pool.execute(
       `SELECT 
         a.appointment_id, a.appointment_date, a.appointment_time,
@@ -61,19 +64,21 @@ export const getAllAppointments = async (req: Request, res: Response): Promise<v
        LEFT JOIN doctor_specialties ds ON d.specialization_id = ds.specialty_id
        ${whereClause}
        ORDER BY a.appointment_date DESC, a.appointment_time DESC
-       LIMIT ? OFFSET ?`,
-      [...params, limit, offset]
+       LIMIT ${limitInt} OFFSET ${offsetInt}`,
+      params
     );
     const appointments = rows as AppointmentWithDetails[];
 
     res.json({
       success: true,
-      data: appointments,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.ceil(total / limit)
+      data: {
+        data: appointments,
+        pagination: {
+          page,
+          limit,
+          total,
+          totalPages: Math.ceil(total / limit)
+        }
       }
     });
   } catch (error) {

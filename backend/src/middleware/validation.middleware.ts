@@ -22,17 +22,12 @@ export const validate = (schema: z.ZodSchema, source: 'body' | 'query' | 'params
       const validated = schema.parse(data);
       
       // Replace the original data with validated data
-      switch (source) {
-        case 'body':
-          req.body = validated;
-          break;
-        case 'query':
-          req.query = validated as any;
-          break;
-        case 'params':
-          req.params = validated as any;
-          break;
+      // Note: req.query and req.params are read-only, so we only replace req.body
+      // For query/params, validation ensures they're correct, controllers can use them directly
+      if (source === 'body') {
+        req.body = validated;
       }
+      // For query and params, validation is enough - controllers use req.query/req.params directly
 
       next();
     } catch (error) {

@@ -20,8 +20,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     // Find staff by email
+    // Note: password column doesn't exist yet - password authentication not implemented
     const [rows] = await pool.execute(
-      'SELECT staff_id, employee_id, email, password, role_id, status FROM staff WHERE email = ?',
+      'SELECT staff_id, employee_id, email, role_id, status FROM staff WHERE email = ?',
       [email]
     );
     const staff = (rows as any[])[0];
@@ -91,10 +92,12 @@ export const getCurrentUser = async (req: AuthRequest, res: Response): Promise<v
     // Get full staff details
     const [rows] = await pool.execute(
       `SELECT s.staff_id, s.employee_id, s.first_name, s.last_name, s.email, s.phone,
-              s.role_id, sr.role_name, s.department_id, d.department_name, s.status
+              s.role_id, sr.role_name, s.department_id, d.department_name, s.status,
+              doc.doctor_id
        FROM staff s
        LEFT JOIN staff_roles sr ON s.role_id = sr.role_id
        LEFT JOIN departments d ON s.department_id = d.department_id
+       LEFT JOIN doctors doc ON s.staff_id = doc.staff_id
        WHERE s.staff_id = ?`,
       [req.user.staff_id]
     );
@@ -118,7 +121,8 @@ export const getCurrentUser = async (req: AuthRequest, res: Response): Promise<v
         role_name: staff.role_name,
         department_id: staff.department_id,
         department_name: staff.department_name,
-        status: staff.status
+        status: staff.status,
+        doctor_id: staff.doctor_id || null
       }
     });
   } catch (error) {
