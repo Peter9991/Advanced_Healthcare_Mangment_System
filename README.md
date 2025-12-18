@@ -94,14 +94,19 @@ npm start
 ## 📊 Database Schema
 
 The database consists of 50+ tables covering:
-- Patient Management
-- Doctor & Staff Management
-- Appointments & Scheduling
-- Medical Records & Treatment
-- Prescriptions & Pharmacy
-- Laboratory & Diagnostics
-- Billing & Finance
-- Department & Facility Management
+- Patient Management (12 tables) ✅
+- Doctor & Staff Management (8-10 tables)
+- Appointments & Scheduling (5-6 tables)
+- Medical Records & Treatment (10-12 tables)
+- Prescriptions & Pharmacy (6-8 tables)
+- Laboratory & Diagnostics (6-8 tables)
+- Billing & Finance (8-10 tables)
+- Department & Facility Management (5-6 tables)
+
+### Database Files
+- `database/schema/` - Schema files (9 files, 73 tables)
+- `database/queries/` - SQL queries and views
+- `database/databse_Values/` - Seed data for testing
 
 ## 🔐 Security Features
 
@@ -118,7 +123,7 @@ This project is for educational purposes.
 
 ## 👥 Contributors
 
-- [Your Name]
+- [Peter Ashak]
 
 ---
 
