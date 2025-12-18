@@ -108,103 +108,97 @@ Execute in order:
 
 ```mermaid
 erDiagram
-    PATIENTS ||--o{ APPOINTMENTS : "has"
-    PATIENTS ||--o{ MEDICAL_RECORDS : "has"
-    PATIENTS ||--o{ PRESCRIPTIONS : "has"
-    PATIENTS ||--o{ PATIENT_VISITS : "has"
-    PATIENTS ||--o{ INVOICES : "generates"
-    PATIENTS ||--o{ PATIENT_INSURANCE : "has"
-    PATIENTS ||--o{ PATIENT_ALLERGIES : "has"
-    PATIENTS ||--o{ ADMISSIONS : "has"
+    PATIENTS ||--o{ APPOINTMENTS : has
+    PATIENTS ||--o{ MEDICAL_RECORDS : has
+    PATIENTS ||--o{ PRESCRIPTIONS : has
+    PATIENTS ||--o{ PATIENT_VISITS : has
+    PATIENTS ||--o{ INVOICES : generates
+    PATIENTS ||--o{ ADMISSIONS : has
     
-    DOCTORS ||--o{ APPOINTMENTS : "schedules"
-    DOCTORS ||--o{ MEDICAL_RECORDS : "creates"
-    DOCTORS ||--o{ PRESCRIPTIONS : "writes"
-    DOCTORS ||--o{ PATIENT_VISITS : "attends"
-    DOCTORS ||--o{ SURGICAL_PROCEDURES : "performs"
+    DOCTORS ||--o{ APPOINTMENTS : schedules
+    DOCTORS ||--o{ MEDICAL_RECORDS : creates
+    DOCTORS ||--o{ PRESCRIPTIONS : writes
+    DOCTORS ||--o{ SURGICAL_PROCEDURES : performs
     
-    DEPARTMENTS ||--o{ STAFF : "contains"
-    DEPARTMENTS ||--o{ DOCTORS : "contains"
-    DEPARTMENTS ||--o{ ROOMS : "has"
-    DEPARTMENTS ||--o{ ADMISSIONS : "admits_to"
+    DEPARTMENTS ||--o{ STAFF : contains
+    DEPARTMENTS ||--o{ DOCTORS : contains
+    DEPARTMENTS ||--o{ ROOMS : has
     
-    STAFF ||--|| DOCTORS : "can_be"
-    STAFF ||--o{ STAFF_SHIFTS : "works"
+    STAFF ||--|| DOCTORS : can_be
     
-    APPOINTMENTS ||--o| PATIENT_VISITS : "creates"
-    PATIENT_VISITS ||--o{ MEDICAL_RECORDS : "generates"
-    MEDICAL_RECORDS ||--o{ DIAGNOSES : "contains"
-    MEDICAL_RECORDS ||--o{ TREATMENTS : "contains"
-    MEDICAL_RECORDS ||--o{ VITAL_SIGNS : "includes"
+    APPOINTMENTS ||--o| PATIENT_VISITS : creates
+    PATIENT_VISITS ||--o{ MEDICAL_RECORDS : generates
+    MEDICAL_RECORDS ||--o{ DIAGNOSES : contains
+    MEDICAL_RECORDS ||--o{ TREATMENTS : contains
     
-    PRESCRIPTIONS ||--o{ PRESCRIPTION_ITEMS : "contains"
-    PRESCRIPTION_ITEMS }o--|| MEDICATIONS : "uses"
-    MEDICATIONS ||--o{ MEDICATION_INVENTORY : "has"
-    MEDICATIONS ||--o{ MEDICATION_INTERACTIONS : "interacts_with"
+    PRESCRIPTIONS ||--o{ PRESCRIPTION_ITEMS : contains
+    PRESCRIPTION_ITEMS }o--|| MEDICATIONS : uses
     
-    INVOICES ||--o{ INVOICE_ITEMS : "contains"
-    INVOICES ||--o{ PAYMENTS : "receives"
-    INVOICES ||--o{ INSURANCE_CLAIMS : "generates"
-    INVOICES ||--o{ DISCOUNTS : "has"
+    INVOICES ||--o{ INVOICE_ITEMS : contains
+    INVOICES ||--o{ PAYMENTS : receives
+    INVOICES ||--o{ INSURANCE_CLAIMS : generates
     
-    INSURANCE_PROVIDERS ||--o{ PATIENT_INSURANCE : "provides"
-    PATIENT_INSURANCE ||--o{ INSURANCE_CLAIMS : "covers"
+    INSURANCE_PROVIDERS ||--o{ PATIENT_INSURANCE : provides
+    PATIENT_INSURANCE ||--o{ INSURANCE_CLAIMS : covers
     
-    LAB_TEST_ORDERS ||--o{ LAB_TEST_ORDER_ITEMS : "contains"
-    LAB_TEST_ORDER_ITEMS ||--o| LAB_RESULTS : "produces"
-    LAB_TEST_ORDER_ITEMS }o--|| LAB_TESTS : "tests"
+    LAB_TEST_ORDERS ||--o{ LAB_TEST_ORDER_ITEMS : contains
+    LAB_TEST_ORDER_ITEMS ||--o| LAB_RESULTS : produces
+    LAB_TEST_ORDER_ITEMS }o--|| LAB_TESTS : tests
     
-    RADIOLOGY_ORDERS ||--o| RADIOLOGY_RESULTS : "produces"
-    RADIOLOGY_ORDERS ||--o{ IMAGING_STUDIES : "includes"
+    RADIOLOGY_ORDERS ||--o| RADIOLOGY_RESULTS : produces
     
-    ADMISSIONS ||--o{ BED_ASSIGNMENTS : "requires"
-    BED_ASSIGNMENTS }o--|| BEDS : "uses"
-    BEDS }o--|| ROOMS : "located_in"
+    ADMISSIONS ||--o{ BED_ASSIGNMENTS : requires
+    BED_ASSIGNMENTS }o--|| BEDS : uses
+    BEDS }o--|| ROOMS : located_in
     
-    SURGICAL_PROCEDURES ||--o| ANESTHESIA_RECORDS : "requires"
-    SURGICAL_PROCEDURES ||--o| OPERATION_THEATER_BOOKINGS : "books"
+    SURGICAL_PROCEDURES ||--o| ANESTHESIA_RECORDS : requires
+    SURGICAL_PROCEDURES ||--o| OPERATION_THEATER_BOOKINGS : books
 ```
 
-### Key Relationships (Chen Notation)
+## Schema Diagram
 
-**One-to-Many (1 ──< M):**
-- **PATIENTS (1) ──< (M) APPOINTMENTS** - One patient has many appointments
-- **PATIENTS (1) ──< (M) MEDICAL_RECORDS** - One patient has many medical records
-- **PATIENTS (1) ──< (M) PRESCRIPTIONS** - One patient has many prescriptions
-- **PATIENTS (1) ──< (M) INVOICES** - One patient generates many invoices
-- **PATIENTS (1) ──< (M) PATIENT_VISITS** - One patient has many visits
-- **DOCTORS (1) ──< (M) APPOINTMENTS** - One doctor schedules many appointments
-- **DOCTORS (1) ──< (M) MEDICAL_RECORDS** - One doctor creates many records
-- **DOCTORS (1) ──< (M) PRESCRIPTIONS** - One doctor writes many prescriptions
-- **DEPARTMENTS (1) ──< (M) STAFF** - One department contains many staff
-- **DEPARTMENTS (1) ──< (M) DOCTORS** - One department has many doctors
-- **DEPARTMENTS (1) ──< (M) ROOMS** - One department has many rooms
-- **PRESCRIPTIONS (1) ──< (M) PRESCRIPTION_ITEMS** - One prescription has many items
-- **INVOICES (1) ──< (M) INVOICE_ITEMS** - One invoice has many items
-- **INVOICES (1) ──< (M) PAYMENTS** - One invoice receives many payments
-- **MEDICAL_RECORDS (1) ──< (M) DIAGNOSES** - One record contains many diagnoses
-- **MEDICAL_RECORDS (1) ──< (M) TREATMENTS** - One record has many treatments
-- **ADMISSIONS (1) ──< (M) BED_ASSIGNMENTS** - One admission requires many bed assignments
-- **LAB_TEST_ORDERS (1) ──< (M) LAB_TEST_ORDER_ITEMS** - One order has many items
-- **MEDICATIONS (1) ──< (M) MEDICATION_INVENTORY** - One medication has many inventory entries
+```mermaid
+graph TB
+    subgraph "Core Entities"
+        PATIENTS[PATIENTS<br/>12 tables]
+        DOCTORS[DOCTORS<br/>8 tables]
+        DEPARTMENTS[DEPARTMENTS]
+    end
+    
+    subgraph "Clinical"
+        APPOINTMENTS[APPOINTMENTS<br/>6 tables]
+        MEDICAL_RECORDS[MEDICAL_RECORDS<br/>13 tables]
+        PRESCRIPTIONS[PRESCRIPTIONS<br/>7 tables]
+        LAB_DIAGNOSTICS[LAB & DIAGNOSTICS<br/>9 tables]
+    end
+    
+    subgraph "Administrative"
+        BILLING[BILLING<br/>10 tables]
+        FACILITIES[FACILITIES<br/>8 tables]
+    end
+    
+    PATIENTS --> APPOINTMENTS
+    PATIENTS --> MEDICAL_RECORDS
+    PATIENTS --> PRESCRIPTIONS
+    PATIENTS --> BILLING
+    
+    DOCTORS --> APPOINTMENTS
+    DOCTORS --> MEDICAL_RECORDS
+    DOCTORS --> PRESCRIPTIONS
+    
+    DEPARTMENTS --> DOCTORS
+    DEPARTMENTS --> FACILITIES
+    
+    APPOINTMENTS --> MEDICAL_RECORDS
+    MEDICAL_RECORDS --> PRESCRIPTIONS
+    MEDICAL_RECORDS --> LAB_DIAGNOSTICS
+    
+    PRESCRIPTIONS --> BILLING
+    MEDICAL_RECORDS --> BILLING
+    LAB_DIAGNOSTICS --> BILLING
+```
 
-**Many-to-One (M ──> 1):**
-- **PRESCRIPTION_ITEMS (M) ──> (1) MEDICATIONS** - Many items use one medication
-- **BED_ASSIGNMENTS (M) ──> (1) BEDS** - Many assignments use one bed
-- **BEDS (M) ──> (1) ROOMS** - Many beds located in one room
-- **LAB_TEST_ORDER_ITEMS (M) ──> (1) LAB_TESTS** - Many items test one lab test type
-- **STAFF (M) ──> (1) DEPARTMENTS** - Many staff belong to one department
-- **DOCTORS (M) ──> (1) DEPARTMENTS** - Many doctors belong to one department
-
-**One-to-One (1 ── 1):**
-- **STAFF (1) ── (1) DOCTORS** - One staff member can be one doctor (optional)
-- **APPOINTMENTS (1) ── (1) PATIENT_VISITS** - One appointment creates one visit
-- **LAB_TEST_ORDER_ITEMS (1) ── (1) LAB_RESULTS** - One order item produces one result
-- **RADIOLOGY_ORDERS (1) ── (1) RADIOLOGY_RESULTS** - One order produces one result
-- **SURGICAL_PROCEDURES (1) ── (1) ANESTHESIA_RECORDS** - One procedure requires one anesthesia record
-- **SURGICAL_PROCEDURES (1) ── (1) OPERATION_THEATER_BOOKINGS** - One procedure books one theater
-
-## Key Relationships Summary
+## Key Relationships
 
 - **Patients** are central to appointments, visits, medical records, prescriptions, and billing
 - **Doctors** are linked to appointments, medical records, and prescriptions
