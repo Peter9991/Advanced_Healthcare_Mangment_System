@@ -48,7 +48,7 @@ export const getAllAppointments = async (req: Request, res: Response): Promise<v
     const offsetInt = parseInt(String(offset), 10);
     const [rows] = await pool.execute(
       `SELECT 
-        a.appointment_id, a.appointment_date, a.appointment_time,
+        a.appointment_id, a.patient_id, a.doctor_id, a.appointment_date, a.appointment_time,
         a.reason_for_visit, a.notes,
         CONCAT(p.first_name, ' ', p.last_name) as patient_name,
         CONCAT(s.first_name, ' ', s.last_name) as doctor_name,

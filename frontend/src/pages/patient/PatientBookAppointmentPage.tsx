@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { appointmentService, AppointmentCreateRequest } from '@/services/appointment.service';
 import { doctorService } from '@/services/doctor.service';
 import { patientAuthService } from '@/services/patientAuth.service';
 import { useLanguage } from '@/context/LanguageContext';
 import LanguageToggle from '@/components/LanguageToggle';
+import PatientChatbot from '@/components/PatientChatbot';
 import './PatientBookAppointmentPage.css';
 
 const PatientBookAppointmentPage = () => {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
   const [step, setStep] = useState(1); // 1: Select Doctor, 2: Select Time, 3: Payment
   const [doctors, setDoctors] = useState<any[]>([]);
   const [selectedDoctor, setSelectedDoctor] = useState<any>(null);
@@ -50,7 +52,30 @@ const PatientBookAppointmentPage = () => {
         ]);
         setDoctors(doctorsRes.data);
         setPatient(patientData);
-        setSelectedDate(new Date().toISOString().split('T')[0]);
+        
+        // Check if pre-filled data from chatbot
+        const state = window.history.state?.usr || (location as any).state;
+        if (state) {
+          if (state.doctor_id) {
+            const doctor = doctorsRes.data.find((d: any) => d.doctor_id === state.doctor_id);
+            if (doctor) {
+              setSelectedDoctor(doctor);
+            }
+          }
+          if (state.appointment_date) {
+            setSelectedDate(state.appointment_date);
+          } else {
+            setSelectedDate(new Date().toISOString().split('T')[0]);
+          }
+          if (state.appointment_time) {
+            setSelectedTime(state.appointment_time);
+          }
+          if (state.reason) {
+            setReason(state.reason);
+          }
+        } else {
+          setSelectedDate(new Date().toISOString().split('T')[0]);
+        }
       } catch (err) {
         console.error('Failed to fetch data:', err);
       }
@@ -365,6 +390,7 @@ const PatientBookAppointmentPage = () => {
           </div>
         )}
       </div>
+      <PatientChatbot />
     </div>
   );
 };

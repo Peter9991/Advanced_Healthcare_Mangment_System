@@ -12,6 +12,7 @@ import billingRoutes from './routes/billing.routes';
 import medicalRecordRoutes from './routes/medicalRecord.routes';
 import labResultRoutes from './routes/labResult.routes';
 import facilityRoutes from './routes/facility.routes';
+import chatbotRoutes from './routes/chatbot.routes';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
 
 dotenv.config();
@@ -54,6 +55,7 @@ app.use('/api/billing', billingRoutes);
 app.use('/api/medical-records', medicalRecordRoutes);
 app.use('/api/lab-results', labResultRoutes);
 app.use('/api/facilities', facilityRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 
 // Error handling middleware (must be last)
 app.use(notFoundHandler);

@@ -4,6 +4,7 @@ import { patientAuthService } from '@/services/patientAuth.service';
 import { appointmentService } from '@/services/appointment.service';
 import { useLanguage } from '@/context/LanguageContext';
 import LanguageToggle from '@/components/LanguageToggle';
+import PatientChatbot from '@/components/PatientChatbot';
 import './PatientDashboardPage.css';
 
 const PatientDashboardPage = () => {
@@ -240,6 +241,7 @@ const PatientDashboardPage = () => {
           </div>
         </div>
       </main>
+      <PatientChatbot />
     </div>
   );
 };

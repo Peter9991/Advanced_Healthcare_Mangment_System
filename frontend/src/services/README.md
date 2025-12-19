@@ -54,6 +54,7 @@ export const patientService = {
 - **`labResult.service.ts`** - Lab results and orders
 - **`billing.service.ts`** - Invoice management
 - **`facility.service.ts`** - Room and facility data
+- **`chatbot.service.ts`** - AI-powered chatbot for patient assistance
 
 ## Usage in Components
 
@@ -77,4 +78,50 @@ const fetchPatients = async () => {
 - **Testing**: Easy to mock services for testing
 - **Consistency**: All API calls follow the same pattern
 - **Type Safety**: TypeScript ensures correct data types
+
+## Chatbot Service
+
+The `chatbot.service.ts` provides AI-powered conversational assistance for patients. It integrates with Groq AI to deliver natural language understanding and automated appointment booking.
+
+### Features
+
+- **Natural Language Processing**: Understands patient queries in conversational language
+- **Appointment Booking**: Automated scheduling with doctor availability checking
+- **Medical Guidance**: Symptom-based recommendations with appropriate disclaimers
+- **Bilingual Support**: Handles English and Arabic automatically
+
+### Usage Example
+
+```typescript
+import { chatbotService } from '../services/chatbot.service';
+
+// Send message to chatbot
+const response = await chatbotService.sendMessage("I want to book with dr noha at 13:00 tomorrow");
+
+// Response includes:
+// - message: AI-generated response text
+// - action: Optional appointment booking data (if applicable)
+if (response.action?.type === 'book_appointment') {
+  // Navigate to booking page with pre-filled data
+  navigate('/patient/book-appointment', { state: response.action.data });
+}
+```
+
+### Response Structure
+
+```typescript
+interface ChatbotResponse {
+  message: string;  // AI-generated response
+  action?: {
+    type: 'book_appointment';
+    data: {
+      doctor_id: number;
+      doctor_name: string;
+      appointment_date: string;
+      appointment_time: string;
+      reason?: string;
+    };
+  };
+}
+```
 

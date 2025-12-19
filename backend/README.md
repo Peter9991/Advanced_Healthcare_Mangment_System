@@ -1,6 +1,6 @@
 # Healthcare Management System - Backend API
 
-TypeScript backend API built with Express, MySQL, and JWT authentication. Implements role-based access control, request validation, and comprehensive error handling.
+TypeScript backend API built with Express, MySQL, and JWT authentication. Implements role-based access control, request validation, comprehensive error handling, and AI-powered chatbot integration via Groq AI.
 
 ## Architecture Overview
 
@@ -130,13 +130,18 @@ backend/
 │   │   ├── auth.routes.ts        # Authentication endpoints
 │   │   ├── patient.routes.ts     # Patient CRUD endpoints
 │   │   ├── doctor.routes.ts      # Doctor endpoints
-│   │   └── appointment.routes.ts # Appointment endpoints
+│   │   ├── appointment.routes.ts # Appointment endpoints
+│   │   └── chatbot.routes.ts     # AI chatbot endpoints
 │   │
 │   ├── controllers/              # Business logic handlers
 │   │   ├── auth.controller.ts     # Login, user info
 │   │   ├── patient.controller.ts # Patient operations
 │   │   ├── doctor.controller.ts   # Doctor operations
-│   │   └── appointment.controller.ts # Appointment operations
+│   │   ├── appointment.controller.ts # Appointment operations
+│   │   └── chatbot.controller.ts # AI chatbot processing
+│   │
+│   ├── services/                 # External service integrations
+│   │   └── groq.service.ts       # Groq AI integration
 │   │
 │   ├── middleware/               # Request processing middleware
 │   │   ├── auth.middleware.ts    # JWT authentication & role authorization
@@ -242,6 +247,12 @@ backend/
 - Consistent error response format
 - Stack traces only in development mode
 
+### 6. **AI Integration (Groq)**
+- Secure API key management via environment variables
+- Graceful fallback to rule-based responses if AI unavailable
+- Patient-authenticated endpoints for chatbot access
+- Hybrid approach: AI for natural language, rule-based for structured data
+
 ## API Endpoints
 
 ### Authentication
@@ -263,6 +274,12 @@ backend/
 - `GET /api/appointments` - List appointments (filters: doctor_id, patient_id, date)
 - `GET /api/appointments/:id` - Get appointment by ID
 - `POST /api/appointments` - Create appointment (validated)
+
+### Chatbot (AI-Powered)
+- `POST /api/chatbot/message` - Send message to AI chatbot (requires patient authentication)
+  - **Request Body**: `{ message: string }`
+  - **Response**: `{ message: string, action?: { type: 'book_appointment', data: {...} } }`
+  - **Features**: Natural language processing, appointment booking assistance, medical guidance
 
 ## Example: Protected Route with Authorization
 
@@ -332,6 +349,11 @@ npm start
 - `JWT_SECRET` - Secret key for JWT signing (use a strong random string)
 - `JWT_EXPIRE` - Token expiration (e.g., "7d", "24h", "1h")
 
+#### Groq AI Configuration (Optional)
+- `GROQ_API_KEY` - Groq API key for AI-powered chatbot (optional, system works without it)
+  - If not provided, chatbot uses rule-based fallback responses
+  - Get your API key from: https://console.groq.com/
+
 ### Example `.env` file:
 
 ```env
@@ -357,6 +379,9 @@ DB_SSL_REJECT_UNAUTHORIZED=true
 # JWT Configuration
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
 JWT_EXPIRE=7d
+
+# Groq AI Configuration (Optional - for enhanced chatbot)
+GROQ_API_KEY=your-groq-api-key-here
 ```
 
 ### AWS RDS Setup

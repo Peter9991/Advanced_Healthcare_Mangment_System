@@ -21,12 +21,18 @@ const MyPatientsPage = () => {
 
       try {
         setLoading(true);
+        console.log('Fetching patients for doctor_id:', user.doctor_id);
+        
         // Get all appointments for this doctor
         const appointmentsRes = await appointmentService.getAll({ 
           page: 1, 
           limit: 1000,
           doctor_id: user.doctor_id 
         });
+        
+        console.log('Appointments response:', appointmentsRes);
+        console.log('Appointments data:', appointmentsRes.data);
+        console.log('Total appointments:', appointmentsRes.pagination?.total);
         
         // Extract unique patient IDs from appointments
         const patientIds = new Set<number>();
@@ -36,14 +42,20 @@ const MyPatientsPage = () => {
           }
         });
         
+        console.log('Unique patient IDs:', Array.from(patientIds));
+        
         // Fetch actual patient data for each unique patient ID
         const patientPromises = Array.from(patientIds).map(id => 
-          patientService.getById(id).catch(() => null)
+          patientService.getById(id).catch((err) => {
+            console.error(`Failed to fetch patient ${id}:`, err);
+            return null;
+          })
         );
         
         const patientResults = await Promise.all(patientPromises);
         const validPatients = patientResults.filter((p): p is Patient => p !== null);
         
+        console.log('Valid patients:', validPatients);
         setPatients(validPatients);
       } catch (err: any) {
         setError(err.message || 'Failed to fetch patients');

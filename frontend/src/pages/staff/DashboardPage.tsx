@@ -2,6 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { useState, useEffect } from 'react';
 import { appointmentService } from '@/services/appointment.service';
+import { patientService } from '@/services/patient.service';
+import { doctorService } from '@/services/doctor.service';
+import { prescriptionService } from '@/services/prescription.service';
 import './DashboardPage.css';
 
 const DashboardPage = () => {
@@ -10,6 +13,10 @@ const DashboardPage = () => {
   const [myAppointmentsCount, setMyAppointmentsCount] = useState(0);
   const [myPatientsCount, setMyPatientsCount] = useState(0);
   const [myEarnings, setMyEarnings] = useState(0);
+  const [totalPatientsCount, setTotalPatientsCount] = useState(0);
+  const [activeDoctorsCount, setActiveDoctorsCount] = useState(0);
+  const [todayAppointmentsCount, setTodayAppointmentsCount] = useState(0);
+  const [pendingPrescriptionsCount, setPendingPrescriptionsCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const isDoctor = user?.role_name === 'Doctor';
@@ -55,10 +62,40 @@ const DashboardPage = () => {
         }
       };
       fetchDoctorData();
+    } else if (user?.role_name === 'Admin') {
+      // Fetch admin dashboard stats
+      const fetchAdminData = async () => {
+        try {
+          // Fetch total patients count
+          const patientsRes = await patientService.getAll({ page: 1, limit: 1, status: 'All' });
+          setTotalPatientsCount(patientsRes.pagination.total);
+
+          // Fetch active doctors count
+          const doctorsRes = await doctorService.getAll({ page: 1, limit: 1, status: 'Active' });
+          setActiveDoctorsCount(doctorsRes.pagination.total);
+
+          // Fetch today's appointments
+          const today = new Date().toISOString().split('T')[0];
+          const appointmentsRes = await appointmentService.getAll({ page: 1, limit: 1000, date: today });
+          setTodayAppointmentsCount(appointmentsRes.pagination.total);
+
+          // Fetch pending prescriptions
+          const prescriptionsRes = await prescriptionService.getAll({ page: 1, limit: 1000 });
+          const pendingCount = prescriptionsRes.data.filter((p: any) => 
+            (p.status || '').toLowerCase() === 'pending' || (p.status || '').toLowerCase() === 'active'
+          ).length;
+          setPendingPrescriptionsCount(pendingCount);
+        } catch (error) {
+          console.error('Failed to fetch admin data:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchAdminData();
     } else {
       setLoading(false);
     }
-  }, [isDoctor, user?.doctor_id]);
+  }, [isDoctor, user?.doctor_id, user?.role_name]);
 
   // Doctor-specific stats
   const doctorStats = [
@@ -70,10 +107,10 @@ const DashboardPage = () => {
 
   // Admin/Staff stats
   const adminStats = [
-    { label: 'Total Patients', value: '0', icon: '👥', color: '#3b82f6', path: '/dashboard/patients' },
-    { label: 'Active Doctors', value: '0', icon: '👨‍⚕️', color: '#10b981', path: '/dashboard/doctors' },
-    { label: 'Today\'s Appointments', value: '0', icon: '📅', color: '#f59e0b', path: '/dashboard/appointments' },
-    { label: 'Pending Prescriptions', value: '0', icon: '💊', color: '#8b5cf6', path: '/dashboard/prescriptions' },
+    { label: 'Total Patients', value: totalPatientsCount.toString(), icon: '👥', color: '#3b82f6', path: '/dashboard/patients' },
+    { label: 'Active Doctors', value: activeDoctorsCount.toString(), icon: '👨‍⚕️', color: '#10b981', path: '/dashboard/doctors' },
+    { label: 'Today\'s Appointments', value: todayAppointmentsCount.toString(), icon: '📅', color: '#f59e0b', path: '/dashboard/appointments' },
+    { label: 'Pending Prescriptions', value: pendingPrescriptionsCount.toString(), icon: '💊', color: '#8b5cf6', path: '/dashboard/prescriptions' },
   ];
 
   const stats = isDoctor ? doctorStats : adminStats;

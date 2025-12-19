@@ -130,6 +130,13 @@ sequenceDiagram
 - Equipment and inventory tracking
 - Comprehensive audit logging and compliance reporting
 
+### AI-Powered Patient Assistant
+- Intelligent chatbot with natural language processing
+- 24/7 automated appointment booking assistance
+- Medical guidance and symptom-based doctor recommendations
+- Bilingual support (English/Arabic)
+- Seamless integration with appointment scheduling system
+
 ---
 
 ## 🛠️ Technology Stack
@@ -162,6 +169,14 @@ sequenceDiagram
 | Connection | Connection Pooling (mysql2) |
 | Security | SSL/TLS Encryption |
 | Normalization | BCNF/4NF/5NF Compliant |
+
+### AI & Machine Learning
+| Component | Technology |
+|-----------|-----------|
+| AI Provider | Groq AI |
+| Model | Llama 3.3 70B Versatile |
+| NLP | Natural Language Processing |
+| Approach | Hybrid (AI + Rule-Based) |
 
 ### Infrastructure
 - **Cloud Provider**: Amazon Web Services (AWS)
@@ -710,6 +725,7 @@ graph TB
 | **Laboratory Integration** | Lab test ordering and results management |
 | **Billing & Insurance** | Automated invoicing and insurance claim processing |
 | **Multi-Role Access** | Role-based dashboards for 7 different user types |
+| **AI-Powered Chatbot** | Intelligent patient assistant with natural language understanding |
 | **Audit Logging** | Complete audit trail for compliance and security |
 | **Cloud-Ready** | Designed for AWS deployment with RDS integration |
 
@@ -722,6 +738,26 @@ graph TB
 - **Pharmacist**: Prescription and medication management
 - **Receptionist**: Appointment and patient registration
 - **Radiologist**: Diagnostic imaging management
+
+### AI-Powered Chatbot
+
+The system includes an intelligent patient assistant chatbot that provides 24/7 automated support for patients. The chatbot leverages **Groq AI** with the Llama 3.3 70B model for natural language understanding, combined with rule-based logic for reliable appointment booking.
+
+**Key Capabilities:**
+- **Natural Language Processing**: Understands patient queries in conversational language
+- **Appointment Booking**: Automated appointment scheduling with doctor availability checking
+- **Medical Guidance**: Symptom-based doctor recommendations with appropriate medical disclaimers
+- **Bilingual Support**: Seamless English and Arabic language support
+- **Smart Fallbacks**: Graceful degradation to rule-based responses if AI is unavailable
+- **Context Awareness**: Integrates with real-time doctor availability and patient data
+
+**Architecture:**
+- **Frontend**: React-based chat interface with real-time message handling
+- **Backend**: Hybrid AI + rule-based processing for optimal reliability
+- **Integration**: Seamless navigation to appointment booking with pre-filled data
+- **Security**: Patient-authenticated endpoints ensuring data privacy
+
+The chatbot enhances patient experience by providing instant assistance, reducing administrative burden, and enabling patients to book appointments through natural conversation.
 
 ---
 
