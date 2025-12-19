@@ -4,15 +4,24 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Database connection configuration
-const dbConfig = {
+const dbConfig: any = {
   host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'Peter_healthcare_management_system',
+  port: parseInt(process.env.DB_PORT || '3306'),
+  user: process.env.DB_USER || 'peter',
+  password: process.env.DB_PASSWORD || 'peter',
+  database: process.env.DB_NAME || 'HMS_Database',
   waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT || '10'),
+  queueLimit: 0,
+  connectTimeout: parseInt(process.env.DB_CONNECT_TIMEOUT || '60000')
 };
+
+// SSL Configuration for AWS RDS
+if (process.env.DB_SSL === 'true' || process.env.DB_SSL === '1') {
+  dbConfig.ssl = {
+    rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false' && process.env.DB_SSL_REJECT_UNAUTHORIZED !== '0'
+  };
+}
 
 // Create connection pool
 const pool = mysql.createPool(dbConfig);

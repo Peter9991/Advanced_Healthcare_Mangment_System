@@ -1,5 +1,5 @@
 -- Medical Records Tables
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- MEDICAL_RECORDS
 CREATE TABLE medical_records (

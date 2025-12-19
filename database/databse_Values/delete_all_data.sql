@@ -1,5 +1,5 @@
 -- Delete All Seed Data
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- Disable foreign key checks temporarily
 SET FOREIGN_KEY_CHECKS = 0;

@@ -1,5 +1,5 @@
 -- Facilities Tables (Run after 04_hms_medical_records_tables.sql)
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- ROOMS
 CREATE TABLE rooms (

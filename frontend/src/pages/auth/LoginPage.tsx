@@ -48,31 +48,31 @@ const LoginPage = () => {
           <div className="credentials-grid">
             <div className="credential-item">
               <span className="credential-role">{t('role.admin')}</span>
-              <code className="credential-value">hala.alqahtani@hospital.com</code>
+              <code className="credential-value">hala.ahmed@hospital.com</code>
             </div>
             <div className="credential-item">
               <span className="credential-role">{t('role.doctor')}</span>
-              <code className="credential-value">ahmed.alsaud@hospital.com</code>
+              <code className="credential-value">abdallah.mohamed@hospital.com</code>
             </div>
             <div className="credential-item">
               <span className="credential-role">{t('role.nurse')}</span>
-              <code className="credential-value">noura.alharbi@hospital.com</code>
+              <code className="credential-value">nour.hassan@hospital.com</code>
             </div>
             <div className="credential-item">
               <span className="credential-role">{t('role.labTech')}</span>
-              <code className="credential-value">omar.alshammari@hospital.com</code>
+              <code className="credential-value">omar.sayed@hospital.com</code>
             </div>
             <div className="credential-item">
               <span className="credential-role">{t('role.pharmacist')}</span>
-              <code className="credential-value">layla.alghamdi@hospital.com</code>
+              <code className="credential-value">layla.ibrahim@hospital.com</code>
             </div>
             <div className="credential-item">
               <span className="credential-role">{t('role.receptionist')}</span>
-              <code className="credential-value">yousef.almutairi@hospital.com</code>
+              <code className="credential-value">youssef.mostafa@hospital.com</code>
             </div>
             <div className="credential-item">
               <span className="credential-role">{t('role.radiologist')}</span>
-              <code className="credential-value">khalid.alzahrani@hospital.com</code>
+              <code className="credential-value">khaled.mahmoud@hospital.com</code>
             </div>
           </div>
           <p className="credentials-note">{t('login.passwordBypassed')}</p>

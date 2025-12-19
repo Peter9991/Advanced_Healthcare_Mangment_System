@@ -1,5 +1,5 @@
 -- Laboratory & Diagnostics Tables
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- LAB_CATEGORIES
 CREATE TABLE lab_categories (

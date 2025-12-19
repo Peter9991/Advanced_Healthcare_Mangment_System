@@ -1,5 +1,5 @@
 -- Doctors & Staff Tables
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- STAFF_ROLES
 CREATE TABLE staff_roles (

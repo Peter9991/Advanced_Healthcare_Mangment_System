@@ -1,5 +1,5 @@
 -- Prescriptions & Pharmacy Tables
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- MEDICATIONS
 CREATE TABLE medications (

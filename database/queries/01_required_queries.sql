@@ -1,5 +1,5 @@
 -- Required Queries
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- QUERY 1: Find all appointments for a specific doctor on a given day
 
