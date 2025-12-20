@@ -1,5 +1,5 @@
 -- Patient Management Tables
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- PATIENTS
 CREATE TABLE patients (

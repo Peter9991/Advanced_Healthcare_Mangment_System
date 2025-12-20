@@ -1,5 +1,5 @@
 -- Billing & Finance Tables
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- BILLING_CODES
 CREATE TABLE billing_codes (

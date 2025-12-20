@@ -3,16 +3,34 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Database connection configuration
-const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'Peter_healthcare_management_system',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
+// Ensure required env vars are present
+const required = (name: string): string => {
+  const val = process.env[name];
+  if (!val || val.trim() === '') {
+    throw new Error(`Missing environment variable: ${name}`);
+  }
+  return val;
 };
+
+// Database connection configuration
+const dbConfig: any = {
+  host: required('DB_HOST'),
+  port: parseInt(required('DB_PORT')),
+  user: required('DB_USER'),
+  password: required('DB_PASSWORD'),
+  database: required('DB_NAME'),
+  waitForConnections: true,
+  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT || '10'),
+  queueLimit: 0,
+  connectTimeout: parseInt(process.env.DB_CONNECT_TIMEOUT || '60000')
+};
+
+// SSL Configuration for AWS RDS
+if (process.env.DB_SSL === 'true' || process.env.DB_SSL === '1') {
+  dbConfig.ssl = {
+    rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false' && process.env.DB_SSL_REJECT_UNAUTHORIZED !== '0'
+  };
+}
 
 // Create connection pool
 const pool = mysql.createPool(dbConfig);

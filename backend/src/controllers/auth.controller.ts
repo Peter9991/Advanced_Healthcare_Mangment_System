@@ -28,6 +28,10 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const staff = (rows as any[])[0];
 
     if (!staff) {
+      console.error(`❌ Login failed: Staff not found with email: ${email}`);
+      // Debug: Check if any staff exist
+      const [allStaff] = await pool.execute('SELECT email FROM staff LIMIT 5');
+      console.log('Available staff emails:', (allStaff as any[]).map((s: any) => s.email));
       res.status(401).json({ success: false, message: 'Invalid credentials' });
       return;
     }

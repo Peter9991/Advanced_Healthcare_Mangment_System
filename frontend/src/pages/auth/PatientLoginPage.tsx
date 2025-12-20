@@ -51,11 +51,11 @@ const PatientLoginPage = () => {
           <div className="credentials-grid" style={{ gridTemplateColumns: '1fr' }}>
             <div className="credential-item">
               <span className="credential-role">{t('patientLogin.testNationalId')}</span>
-              <code className="credential-value">1234567890</code>
+              <code className="credential-value">29012345678901</code>
             </div>
             <div className="credential-item">
               <span className="credential-role">{t('patientLogin.testEmail')}</span>
-              <code className="credential-value">ali.almutairi@email.com</code>
+              <code className="credential-value">mahmoud.mostafa.ali@email.com</code>
             </div>
           </div>
           <p className="credentials-note">{t('login.passwordBypassed')}</p>

@@ -1,5 +1,5 @@
 -- Appointments Tables
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- APPOINTMENT_TYPES
 CREATE TABLE appointment_types (

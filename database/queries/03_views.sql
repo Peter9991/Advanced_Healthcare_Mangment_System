@@ -1,5 +1,5 @@
 -- Useful Views
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- VIEW 1: Patient Summary View
 

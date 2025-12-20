@@ -1,5 +1,5 @@
 -- Additional Useful Queries
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- QUERY 5: Find patients with upcoming appointments
 

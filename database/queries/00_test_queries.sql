@@ -1,5 +1,5 @@
 -- Test Queries
-USE Peter_healthcare_management_system;
+USE HMS_Database;
 
 -- Check record counts
 SELECT 

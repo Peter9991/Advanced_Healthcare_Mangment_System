@@ -7,8 +7,10 @@ Comprehensive database schema for a healthcare management system with 73 tables 
 - **schema/** - Database schema files (73 tables)
 - **queries/** - SQL queries and views
 - **databse_Values/** - Seed data for testing
+- **AWS_RDS_DEPLOYMENT.md** - Complete guide for deploying to Amazon RDS
+- **rds_deploy_schema.sql** - Combined schema script for RDS deployment
 
-## Schema Files
+## Local Development Schema Files
 
 Execute in order:
 1. `00_create_database.sql`

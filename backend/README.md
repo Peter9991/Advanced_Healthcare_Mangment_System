@@ -307,9 +307,67 @@ npm start
 
 ## Environment Variables
 
-Required in `.env`:
-- `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` - Database connection
-- `JWT_SECRET` - Secret key for JWT signing
-- `JWT_EXPIRE` - Token expiration (e.g., "7d")
+### Required in `.env`:
+
+#### Server Configuration
 - `PORT` - Server port (default: 5000)
 - `NODE_ENV` - Environment (development/production)
+
+#### AWS RDS MySQL Database Configuration
+- `DB_HOST` - AWS RDS endpoint (e.g., `your-db.xxxxx.us-east-1.rds.amazonaws.com`)
+- `DB_PORT` - Database port (default: 3306)
+- `DB_USER` - Database username (e.g., `admin`)
+- `DB_PASSWORD` - Database password
+- `DB_NAME` - Database name (default: `Peter_healthcare_management_system`)
+
+#### Database Connection Pool Settings (Optional)
+- `DB_CONNECTION_LIMIT` - Maximum number of connections in pool (default: 10)
+- `DB_CONNECT_TIMEOUT` - Connection timeout in milliseconds (default: 60000)
+
+#### SSL Configuration for AWS RDS (Recommended)
+- `DB_SSL` - Enable SSL connection (`true` or `1` for enabled, `false` or `0` for disabled)
+- `DB_SSL_REJECT_UNAUTHORIZED` - Reject unauthorized SSL certificates (default: `true`)
+
+#### JWT Configuration
+- `JWT_SECRET` - Secret key for JWT signing (use a strong random string)
+- `JWT_EXPIRE` - Token expiration (e.g., "7d", "24h", "1h")
+
+### Example `.env` file:
+
+```env
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+
+# AWS RDS MySQL Database Configuration
+DB_HOST=healthcare-db.xxxxx.us-east-1.rds.amazonaws.com
+DB_PORT=3306
+DB_USER=admin
+DB_PASSWORD=your-secure-password-here
+DB_NAME=Peter_healthcare_management_system
+
+# Database Connection Pool Settings
+DB_CONNECTION_LIMIT=10
+DB_CONNECT_TIMEOUT=60000
+
+# SSL Configuration for AWS RDS
+DB_SSL=true
+DB_SSL_REJECT_UNAUTHORIZED=true
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_EXPIRE=7d
+```
+
+### AWS RDS Setup
+
+This backend is configured to work with **Amazon RDS for MySQL**. See the main project `README.md` for detailed AWS RDS setup instructions.
+
+**Quick Setup Checklist:**
+1. ✅ Create RDS MySQL instance in AWS Console
+2. ✅ Configure security group to allow port 3306
+3. ✅ Copy RDS endpoint to `DB_HOST` in `.env`
+4. ✅ Set `DB_USER` and `DB_PASSWORD` from RDS configuration
+5. ✅ Enable SSL: Set `DB_SSL=true` (recommended)
+6. ✅ Initialize database schema from `../database/schema/` files
+7. ✅ Test connection: `npm run dev` and check `/api/test-db` endpoint

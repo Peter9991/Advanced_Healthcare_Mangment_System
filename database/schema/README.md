@@ -2,6 +2,61 @@
 
 Healthcare Management System database schema with 73 tables organized across 9 functional modules.
 
+## Normalization Level
+
+**This schema is normalized to Boyce-Codd Normal Form (BCNF)**, with most tables achieving 4th Normal Form (4NF) and some reaching 5th Normal Form (5NF).
+
+### Normalization Analysis
+
+#### ✅ First Normal Form (1NF)
+- All attributes contain atomic values (no multi-valued attributes)
+- Each row is uniquely identified by a primary key
+- No repeating groups or arrays within columns
+
+#### ✅ Second Normal Form (2NF)
+- All tables satisfy 1NF
+- All non-key attributes are fully functionally dependent on the primary key
+- Composite keys are used appropriately where needed (e.g., `medication_interactions` with unique constraint on `medication_id_1, medication_id_2`)
+
+#### ✅ Third Normal Form (3NF)
+- All tables satisfy 2NF
+- No transitive dependencies (non-key attributes don't depend on other non-key attributes)
+- Entities are properly separated:
+  - `patient_contacts`, `patient_allergies`, `patient_emergency_contacts` are separate from `patients`
+  - `doctor_qualifications` is separate from `doctors`
+  - Lookup tables are normalized (`appointment_types`, `appointment_status`, `staff_roles`, etc.)
+
+#### ✅ Boyce-Codd Normal Form (BCNF)
+- All tables satisfy 3NF
+- Every determinant is a candidate key
+- Foreign key relationships properly enforce referential integrity
+- Junction tables properly handle many-to-many relationships (e.g., `prescription_items`, `lab_test_order_items`, `invoice_items`)
+
+#### ✅ Fourth Normal Form (4NF)
+- All tables satisfy BCNF
+- No multi-valued dependencies
+- Many-to-many relationships are handled through proper junction tables
+
+#### ✅ Fifth Normal Form (5NF)
+- All tables satisfy 4NF
+- No join dependencies that can be decomposed further
+
+### Normalization Features
+
+1. **Entity Separation**: Related but distinct entities are stored in separate tables (e.g., `patients` vs `patient_contacts`, `patient_allergies`, `patient_insurance`)
+
+2. **Lookup Tables**: Reference data is normalized into separate tables (`appointment_types`, `appointment_status`, `payment_methods`, `lab_categories`, etc.)
+
+3. **Junction Tables**: Many-to-many relationships are properly handled:
+   - `prescription_items` links `prescriptions` and `medications`
+   - `lab_test_order_items` links `lab_test_orders` and `lab_tests`
+   - `invoice_items` links `invoices` and services
+   - `medication_interactions` links medications to each other
+
+4. **Referential Integrity**: Foreign key constraints ensure data consistency and prevent orphaned records
+
+5. **No Redundancy**: Data is stored once and referenced through foreign keys (e.g., patient information is not duplicated in appointments, medical records, or prescriptions)
+
 ## Schema Files
 
 Execute in order:
