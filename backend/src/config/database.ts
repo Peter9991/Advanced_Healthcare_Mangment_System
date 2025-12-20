@@ -3,13 +3,22 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// Ensure required env vars are present
+const required = (name: string): string => {
+  const val = process.env[name];
+  if (!val || val.trim() === '') {
+    throw new Error(`Missing environment variable: ${name}`);
+  }
+  return val;
+};
+
 // Database connection configuration
 const dbConfig: any = {
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '3306'),
-  user: process.env.DB_USER || 'peter',
-  password: process.env.DB_PASSWORD || 'peter',
-  database: process.env.DB_NAME || 'HMS_Database',
+  host: required('DB_HOST'),
+  port: parseInt(required('DB_PORT')),
+  user: required('DB_USER'),
+  password: required('DB_PASSWORD'),
+  database: required('DB_NAME'),
   waitForConnections: true,
   connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT || '10'),
   queueLimit: 0,
