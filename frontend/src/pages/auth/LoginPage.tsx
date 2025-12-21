@@ -41,10 +41,18 @@ const LoginPage = () => {
     }
   };
 
+  const handleBackToHome = () => {
+    navigate('/');
+  };
+
   return (
     <div className="login-page">
       <div className="login-container">
         <div className="login-header">
+          <button onClick={handleBackToHome} className="login-back-button" aria-label="Go to home">
+            <span className="back-icon">←</span>
+            <span className="back-text">Home</span>
+          </button>
           <LanguageToggle />
           <h1 className="login-title">{t('login.title')}</h1>
         </div>
