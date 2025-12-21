@@ -15,9 +15,18 @@ export interface AuthRequest extends Request {
 // JWT Authentication Middleware
 export const authenticate = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
+    const authHeader = req.headers.authorization;
+    
+    if (!authHeader) {
+      res.status(401).json({ success: false, message: 'No authorization header provided' });
+      return;
+    }
 
-    if (!token) {
+    const token = authHeader.startsWith('Bearer ') 
+      ? authHeader.substring(7).trim()
+      : authHeader.trim();
+
+    if (!token || token.length === 0) {
       res.status(401).json({ success: false, message: 'No token provided' });
       return;
     }
@@ -25,20 +34,30 @@ export const authenticate = async (req: AuthRequest, res: Response, next: NextFu
     const jwtSecret = process.env.JWT_SECRET || 'your-secret-key';
     const decoded = jwt.verify(token, jwtSecret) as any;
 
+    // Validate decoded token has required fields
+    if (!decoded.staff_id || !decoded.role_id || !decoded.email) {
+      res.status(401).json({ success: false, message: 'Invalid token format' });
+      return;
+    }
+
     // Fetch role_name from database (optional - can be loaded later in authorize)
     try {
-      const [roleRows] = await pool.execute(
-        'SELECT role_name FROM staff_roles WHERE role_id = ?',
-        [decoded.role_id]
-      );
-      const roleData = (roleRows as any[])[0];
+      if (decoded.role_id) {
+        const [roleRows] = await pool.execute(
+          'SELECT role_name FROM staff_roles WHERE role_id = ?',
+          [decoded.role_id]
+        );
+        const roleData = (roleRows as any[])[0];
 
-      req.user = {
-        staff_id: decoded.staff_id,
-        role_id: decoded.role_id,
-        role_name: roleData?.role_name,
-        email: decoded.email
-      };
+        req.user = {
+          staff_id: decoded.staff_id,
+          role_id: decoded.role_id,
+          role_name: roleData?.role_name,
+          email: decoded.email
+        };
+      } else {
+        throw new Error('role_id is missing in token');
+      }
     } catch (dbError) {
       // If role fetch fails, still set user but without role_name
       req.user = {
@@ -49,8 +68,13 @@ export const authenticate = async (req: AuthRequest, res: Response, next: NextFu
     }
 
     next();
-  } catch (error) {
-    res.status(401).json({ success: false, message: 'Invalid or expired token' });
+  } catch (error: any) {
+    const errorMessage = error.name === 'JsonWebTokenError' 
+      ? 'Invalid token' 
+      : error.name === 'TokenExpiredError'
+      ? 'Token expired'
+      : 'Invalid or expired token';
+    res.status(401).json({ success: false, message: errorMessage });
   }
 };
 
@@ -86,7 +110,6 @@ export const authorize = (...allowedRoles: string[]) => {
 
       next();
     } catch (error) {
-      console.error('Authorization error:', error);
       res.status(403).json({ success: false, message: 'Forbidden' });
     }
   };

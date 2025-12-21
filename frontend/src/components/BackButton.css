@@ -1,0 +1,43 @@
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #7c3aed;
+  border: 1px solid #6d28d9;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: white;
+  transition: all 0.2s ease;
+  margin-right: 1rem;
+}
+
+.back-button:hover {
+  background-color: #6d28d9;
+  border-color: #5b21b6;
+  transform: translateX(-2px);
+}
+
+.back-button:active {
+  transform: translateX(0);
+}
+
+.back-icon {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.back-text {
+  font-weight: 500;
+}
+
+/* RTL support */
+[dir="rtl"] .back-button {
+  direction: ltr;
+}
+
+[dir="rtl"] .back-button:hover {
+  transform: translateX(2px);
+}
+

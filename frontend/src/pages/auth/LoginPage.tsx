@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import type { LoginRequest } from '@/types';
 import LanguageToggle from '@/components/LanguageToggle';
+import { getRoleDashboard } from '@/utils/roleRedirect';
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -12,8 +13,18 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const { login, user } = useAuth();
   const navigate = useNavigate();
+
+  // Redirect after successful login
+  useEffect(() => {
+    if (loginSuccess && user?.role_name) {
+      const dashboardRoute = getRoleDashboard(user.role_name);
+      navigate(dashboardRoute);
+      setLoginSuccess(false);
+    }
+  }, [loginSuccess, user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,10 +34,9 @@ const LoginPage = () => {
     try {
       const credentials: LoginRequest = { email, password };
       await login(credentials);
-      navigate('/dashboard');
+      setLoginSuccess(true);
     } catch (err: any) {
       setError(err.message || 'Login failed. Please check your credentials.');
-    } finally {
       setLoading(false);
     }
   };
@@ -73,6 +83,10 @@ const LoginPage = () => {
             <div className="credential-item">
               <span className="credential-role">{t('role.radiologist')}</span>
               <code className="credential-value">khaled.mahmoud@hospital.com</code>
+            </div>
+            <div className="credential-item">
+              <span className="credential-role">{t('role.databaseAdmin')}</span>
+              <code className="credential-value">db.admin@hospital.com</code>
             </div>
           </div>
           <p className="credentials-note">{t('login.passwordBypassed')}</p>

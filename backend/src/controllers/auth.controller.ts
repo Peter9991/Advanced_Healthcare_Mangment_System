@@ -88,8 +88,14 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 // Get current user info
 export const getCurrentUser = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    if (!req.user) {
+    if (!req.user || !req.user.staff_id) {
       res.status(401).json({ success: false, message: 'Unauthorized' });
+      return;
+    }
+
+    const staffId = req.user.staff_id;
+    if (!staffId || staffId === null || staffId === undefined) {
+      res.status(401).json({ success: false, message: 'Invalid user ID' });
       return;
     }
 
@@ -103,7 +109,7 @@ export const getCurrentUser = async (req: AuthRequest, res: Response): Promise<v
        LEFT JOIN departments d ON s.department_id = d.department_id
        LEFT JOIN doctors doc ON s.staff_id = doc.staff_id
        WHERE s.staff_id = ?`,
-      [req.user.staff_id]
+      [staffId]
     );
     const staff = (rows as any[])[0];
 

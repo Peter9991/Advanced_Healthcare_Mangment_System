@@ -35,10 +35,42 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (credentials: LoginRequest) => {
-    await authService.login(credentials);
-    // Fetch full user details
-    const currentUser = await authService.getCurrentUser();
-    setUser(currentUser);
+    // Clear any patient tokens before staff login to avoid conflicts
+    localStorage.removeItem('patient_token');
+    
+    const loginResponse = await authService.login(credentials);
+    // Token is now stored in localStorage by authService.login()
+    // Verify token is stored before proceeding
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token not stored after login');
+    }
+    
+    // Fetch full user details with the new token
+    try {
+      const currentUser = await authService.getCurrentUser();
+      setUser(currentUser);
+    } catch (error: any) {
+      // If getCurrentUser fails, try to use the user from login response
+      const storedUser = authService.getStoredUser();
+      if (storedUser) {
+        // Use stored user as fallback (might not have role_name, but we'll fetch it later)
+        setUser(storedUser);
+        // Try to fetch full user details in background (non-blocking)
+        authService.getCurrentUser()
+          .then(fullUser => setUser(fullUser))
+          .catch(() => {
+            // If it still fails, keep the stored user
+          });
+      } else {
+        // If we have login response data, use it
+        if (loginResponse?.user) {
+          setUser(loginResponse.user as User);
+        } else {
+          throw error;
+        }
+      }
+    }
   };
 
   const logout = () => {

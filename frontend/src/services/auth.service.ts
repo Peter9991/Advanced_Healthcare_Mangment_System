@@ -16,6 +16,10 @@ export const authService = {
 
   // Get current user
   getCurrentUser: async (): Promise<User> => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('No token found');
+    }
     const response = await api.get<ApiResponse<User>>('/auth/me');
     if (response.data.success && response.data.data) {
       return response.data.data;

@@ -78,6 +78,7 @@ const translations: Record<Language, Record<string, string>> = {
     'role.pharmacist': 'Pharmacist',
     'role.receptionist': 'Receptionist',
     'role.radiologist': 'Radiologist',
+    'role.databaseAdmin': 'Database Admin',
   },
   ar: {
     // Navigation
@@ -145,6 +146,7 @@ const translations: Record<Language, Record<string, string>> = {
     'role.pharmacist': 'صيدلي',
     'role.receptionist': 'موظف استقبال',
     'role.radiologist': 'أخصائي أشعة',
+    'role.databaseAdmin': 'مدير قاعدة البيانات',
   }
 };
 

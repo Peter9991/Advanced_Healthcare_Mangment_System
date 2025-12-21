@@ -13,6 +13,7 @@ import medicalRecordRoutes from './routes/medicalRecord.routes';
 import labResultRoutes from './routes/labResult.routes';
 import facilityRoutes from './routes/facility.routes';
 import chatbotRoutes from './routes/chatbot.routes';
+import databaseAdminRoutes from './routes/databaseAdmin.routes';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware';
 
 dotenv.config();
@@ -20,8 +21,16 @@ dotenv.config();
 const app: Express = express();
 const PORT = process.env.PORT || 5000;
 
+// CORS Configuration
+const corsOptions = {
+  origin: true, // Allow all origins (for development)
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -56,6 +65,7 @@ app.use('/api/medical-records', medicalRecordRoutes);
 app.use('/api/lab-results', labResultRoutes);
 app.use('/api/facilities', facilityRoutes);
 app.use('/api/chatbot', chatbotRoutes);
+app.use('/api/database-admin', databaseAdminRoutes);
 
 // Error handling middleware (must be last)
 app.use(notFoundHandler);

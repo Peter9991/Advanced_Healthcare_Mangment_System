@@ -10,7 +10,8 @@ INSERT INTO staff_roles (role_name, description) VALUES
 ('Pharmacist', 'Pharmacy Staff'),
 ('Receptionist', 'Front Desk Staff'),
 ('Radiologist', 'Radiology Specialist'),
-('Accountant', 'Billing and Finance Staff');
+('Accountant', 'Billing and Finance Staff'),
+('Database Administrator', 'Database Administrator with SQL query access');
 
 -- DEPARTMENTS
 INSERT INTO departments (department_name, department_code, location, phone, email, description) VALUES
@@ -58,7 +59,10 @@ INSERT INTO staff (employee_id, first_name, last_name, date_of_birth, gender, ph
     (SELECT role_id FROM staff_roles WHERE role_name = 'Admin' LIMIT 1), 18000.00, 'Active'),
 ('EMP011', 'Abdallah', 'Mohamed', '1983-06-10', 'M', '01001234577', 'abdallah.mohamed@hospital.com', '852 New Cairo District', 'Cairo', 'Egypt', '2019-03-15', 
     (SELECT department_id FROM departments WHERE department_code = 'GEN' LIMIT 1), 
-    (SELECT role_id FROM staff_roles WHERE role_name = 'Doctor' LIMIT 1), 23500.00, 'Active');
+    (SELECT role_id FROM staff_roles WHERE role_name = 'Doctor' LIMIT 1), 23500.00, 'Active'),
+('EMP012', 'Mohamed', 'Database', '1985-09-20', 'M', '01001234578', 'db.admin@hospital.com', '999 IT Department', 'Cairo', 'Egypt', '2020-01-10', 
+    (SELECT department_id FROM departments WHERE department_code = 'LAB' LIMIT 1), 
+    (SELECT role_id FROM staff_roles WHERE role_name = 'Database Administrator' LIMIT 1), 20000.00, 'Active');
 
 -- Update departments with head of department
 UPDATE departments SET head_of_department = 1 WHERE department_id = 1;

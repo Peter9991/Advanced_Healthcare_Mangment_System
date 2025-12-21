@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageToggle from './LanguageToggle';
+import BackButton from './BackButton';
 import './Layout.css';
 
 const menuTranslations: Record<string, { en: string; ar: string }> = {
@@ -17,6 +18,7 @@ const menuTranslations: Record<string, { en: string; ar: string }> = {
   'Billing': { en: 'Billing', ar: 'الفواتير' },
   'My Earnings': { en: 'My Earnings', ar: 'أرباحي' },
   'Facilities': { en: 'Facilities', ar: 'المرافق' },
+  'Database Admin': { en: 'Database Admin', ar: 'إدارة قاعدة البيانات' },
 };
 
 interface LayoutProps {
@@ -52,6 +54,7 @@ const Layout = ({ children }: LayoutProps) => {
       { path: '/dashboard/billing', label: 'Billing', icon: '💰', roles: ['Admin', 'Accountant', 'Receptionist'] },
       { path: '/dashboard/my-earnings', label: 'My Earnings', icon: '💰', roles: ['Doctor'] },
       { path: '/dashboard/facilities', label: 'Facilities', icon: '🏥', roles: ['Admin'] },
+      { path: '/dashboard/database-admin', label: 'Database Admin', icon: '🗄️', roles: ['Database Administrator'] },
     ];
 
     // Filter by role - doctor-specific pages only for Doctor role
@@ -104,9 +107,12 @@ const Layout = ({ children }: LayoutProps) => {
 
       <main className="main-content">
         <header className="top-header">
-          <h1 className="page-title">
-            {getTranslatedLabel(menuItems.find(item => isActive(item.path))?.label || 'Dashboard')}
-          </h1>
+          <div className="header-left">
+            <BackButton />
+            <h1 className="page-title">
+              {getTranslatedLabel(menuItems.find(item => isActive(item.path))?.label || 'Dashboard')}
+            </h1>
+          </div>
           <LanguageToggle />
         </header>
         <div className="content-wrapper">

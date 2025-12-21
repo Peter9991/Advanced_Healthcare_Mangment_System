@@ -4,6 +4,7 @@ import { LanguageProvider } from './context/LanguageContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import { DoctorOnlyRoute } from './components/DoctorOnlyRoute'
 import { AdminOnlyRoute } from './components/AdminOnlyRoute'
+import { DatabaseAdminOnlyRoute } from './components/DatabaseAdminOnlyRoute'
 import Layout from './components/Layout'
 import PatientProtectedRoute from './components/PatientProtectedRoute'
 
@@ -36,6 +37,7 @@ import NewFacilityPage from './pages/staff/facilities/NewFacilityPage'
 import MyAppointmentsPage from './pages/staff/doctors/MyAppointmentsPage'
 import MyPatientsPage from './pages/staff/doctors/MyPatientsPage'
 import MyEarningsPage from './pages/staff/doctors/MyEarningsPage'
+import DatabaseAdminPage from './pages/staff/database-admin/DatabaseAdminPage'
 
 import './App.css'
 
@@ -251,6 +253,16 @@ function App() {
                     <MyEarningsPage />
                   </Layout>
                 </DoctorOnlyRoute>
+              }
+            />
+            <Route
+              path="/dashboard/database-admin"
+              element={
+                <DatabaseAdminOnlyRoute>
+                  <Layout>
+                    <DatabaseAdminPage />
+                  </Layout>
+                </DatabaseAdminOnlyRoute>
               }
             />
             </Routes>
