@@ -51,7 +51,7 @@ const LoginPage = () => {
         <div className="login-header">
           <button onClick={handleBackToHome} className="login-back-button" aria-label="Go to home">
             <span className="back-icon">←</span>
-            <span className="back-text">Home</span>
+            <span className="back-text">{t('common.home')}</span>
           </button>
           <LanguageToggle />
           <h1 className="login-title">{t('login.title')}</h1>

@@ -18,9 +18,7 @@ const HomePage = () => {
           <div className="hero-content">
             <h1 className="hero-title">{t('login.title')}</h1>
             <p className="hero-subtitle">
-              {t('login.title') === 'Healthcare Management System' 
-                ? 'Comprehensive solution for managing patients, appointments, medical records, and hospital operations'
-                : 'حل شامل لإدارة المرضى والمواعيد والسجلات الطبية وعمليات المستشفى'}
+              {t('home.heroSubtitle')}
             </p>
             <div className="hero-buttons">
               <button className="btn btn-primary" onClick={() => navigate('/login')}>
@@ -40,71 +38,47 @@ const HomePage = () => {
       {/* Features Section */}
       <section className="features">
         <div className="container">
-          <h2 className="section-title">Key Features</h2>
+          <h2 className="section-title">{t('home.keyFeatures')}</h2>
           <div className="features-grid">
             <div className="feature-card">
               <div className="feature-icon">👥</div>
-              <h3>Patient Management</h3>
-              <p>
-                Complete patient records management including personal information, 
-                medical history, insurance details, and contact information.
-              </p>
+              <h3>{t('home.feature.patientManagement.title')}</h3>
+              <p>{t('home.feature.patientManagement.desc')}</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">👨‍⚕️</div>
-              <h3>Doctor & Staff</h3>
-              <p>
-                Manage doctor profiles, specialties, schedules, and staff assignments 
-                across different departments.
-              </p>
+              <h3>{t('home.feature.doctorStaff.title')}</h3>
+              <p>{t('home.feature.doctorStaff.desc')}</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">📅</div>
-              <h3>Appointments</h3>
-              <p>
-                Schedule and manage appointments with automated reminders, 
-                availability tracking, and status management.
-              </p>
+              <h3>{t('home.feature.appointments.title')}</h3>
+              <p>{t('home.feature.appointments.desc')}</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">📋</div>
-              <h3>Medical Records</h3>
-              <p>
-                Digital medical records with diagnoses, treatments, vital signs, 
-                and comprehensive patient history tracking.
-              </p>
+              <h3>{t('home.feature.medicalRecords.title')}</h3>
+              <p>{t('home.feature.medicalRecords.desc')}</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">💊</div>
-              <h3>Prescriptions</h3>
-              <p>
-                Electronic prescription management with medication tracking, 
-                refills, and pharmacy integration.
-              </p>
+              <h3>{t('home.feature.prescriptions.title')}</h3>
+              <p>{t('home.feature.prescriptions.desc')}</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">🧪</div>
-              <h3>Lab & Diagnostics</h3>
-              <p>
-                Laboratory test orders, results management, radiology imaging, 
-                and diagnostic report tracking.
-              </p>
+              <h3>{t('home.feature.labDiagnostics.title')}</h3>
+              <p>{t('home.feature.labDiagnostics.desc')}</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">💰</div>
-              <h3>Billing & Finance</h3>
-              <p>
-                Invoice generation, payment processing, insurance claims, 
-                and financial reporting.
-              </p>
+              <h3>{t('home.feature.billingFinance.title')}</h3>
+              <p>{t('home.feature.billingFinance.desc')}</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">🏥</div>
-              <h3>Facilities</h3>
-              <p>
-                Room and bed management, admissions, surgical procedures, 
-                and operation theater bookings.
-              </p>
+              <h3>{t('home.feature.facilities.title')}</h3>
+              <p>{t('home.feature.facilities.desc')}</p>
             </div>
           </div>
         </div>
@@ -113,23 +87,23 @@ const HomePage = () => {
       {/* Benefits Section */}
       <section className="benefits">
         <div className="container">
-          <h2 className="section-title">Why Choose Our System?</h2>
+          <h2 className="section-title">{t('home.whyChoose')}</h2>
           <div className="benefits-list">
             <div className="benefit-item">
-              <h3>🔒 Secure & Compliant</h3>
-              <p>Role-based access control, data encryption, and HIPAA-compliant security measures</p>
+              <h3>{t('home.benefit.secure.title')}</h3>
+              <p>{t('home.benefit.secure.desc')}</p>
             </div>
             <div className="benefit-item">
-              <h3>⚡ Fast & Efficient</h3>
-              <p>Streamlined workflows reduce administrative time and improve patient care</p>
+              <h3>{t('home.benefit.fast.title')}</h3>
+              <p>{t('home.benefit.fast.desc')}</p>
             </div>
             <div className="benefit-item">
-              <h3>📊 Comprehensive Reporting</h3>
-              <p>Real-time analytics and reports for better decision-making</p>
+              <h3>{t('home.benefit.reporting.title')}</h3>
+              <p>{t('home.benefit.reporting.desc')}</p>
             </div>
             <div className="benefit-item">
-              <h3>🔄 Integrated System</h3>
-              <p>All modules work together seamlessly for complete healthcare management</p>
+              <h3>{t('home.benefit.integrated.title')}</h3>
+              <p>{t('home.benefit.integrated.desc')}</p>
             </div>
           </div>
         </div>
@@ -138,10 +112,10 @@ const HomePage = () => {
       {/* CTA Section */}
       <section className="cta">
         <div className="container">
-          <h2>Ready to Get Started?</h2>
-          <p>Access the system with your credentials to begin managing your healthcare operations</p>
+          <h2>{t('home.readyToStart')}</h2>
+          <p>{t('home.readyToStartDesc')}</p>
           <button className="btn btn-primary btn-large" onClick={() => navigate('/login')}>
-            Login to System
+            {t('home.loginToSystem')}
           </button>
         </div>
       </section>
@@ -149,7 +123,7 @@ const HomePage = () => {
       {/* Footer */}
       <footer className="footer">
         <div className="container">
-          <p>&copy; 2024 Healthcare Management System. All rights reserved.</p>
+          <p>{t('home.footer')}</p>
         </div>
       </footer>
     </div>
