@@ -13,6 +13,10 @@ RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 # Copy source code
 COPY . .
 
+# Allow injecting API base URL at build time for Vite
+ARG VITE_API_URL
+ENV VITE_API_URL=${VITE_API_URL}
+
 # Build the application with Vite (skip TypeScript type-check)
 RUN npx vite build
 
