@@ -1,0 +1,23 @@
+# Backend Environment Variables for Docker
+PORT=5000
+NODE_ENV=production
+
+# JWT Secrets - CHANGE THESE IN PRODUCTION
+JWT_SECRET=your_super_secret_jwt_key_change_in_production
+REFRESH_TOKEN_SECRET=your_super_secret_refresh_token_key_change_in_production
+
+# Database Configuration (AWS RDS)
+DB_HOST=hms-database.ci1cqqyec72z.us-east-1.rds.amazonaws.com
+DB_PORT=3306
+DB_USER=peter
+DB_PASSWORD=iZ5DClUPyFVvZFYRhKg3
+DB_NAME=HMS_Database
+DB_CONNECTION_LIMIT=10
+DB_CONNECT_TIMEOUT=60000
+
+# SSL Configuration
+DB_SSL=false
+DB_SSL_REJECT_UNAUTHORIZED=true
+
+# Groq API (for chatbot feature - optional)
+GROQ_API_KEY=your_groq_api_key_here

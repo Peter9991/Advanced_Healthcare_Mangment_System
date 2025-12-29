@@ -6,9 +6,11 @@ services:
     build:
       context: ./backend
     image: sotirusama/hms-backend:latest
+    networks:
+      - hms-network
     container_name: hms-backend
     env_file:
-      - ./backend/.env
+      - ./.backend-env
     ports:
       - "5000:5000"
     restart: unless-stopped
@@ -16,12 +18,17 @@ services:
   frontend:
     build:
       context: ./frontend
+      args:
+        VITE_API_URL: http://ec2-13-221-178-64.compute-1.amazonaws.com:5000/api/
     image: sotirusama/hms-frontend:latest
+    networks:
+      - hms-network
     container_name: hms-frontend
-    env_file:
-      - ./frontend/.env
     ports:
       - "3002:80"
-    depends_on:
-      - backend
+      - "80:80"
     restart: unless-stopped
+
+networks:
+  hms-network:
+    driver: bridge
