@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build:
+      context: ./backend
+    image: sotirusama/hms-backend:latest
+    container_name: hms-backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    image: sotirusama/hms-frontend:latest
+    container_name: hms-frontend
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "3002:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
