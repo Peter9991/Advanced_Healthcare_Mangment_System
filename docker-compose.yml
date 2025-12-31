@@ -24,6 +24,8 @@ services:
     networks:
       - hms-network
     container_name: hms-frontend
+    env_file:
+      - ./.frontend-env
     ports:
       - "3002:80"
       - "80:80"
