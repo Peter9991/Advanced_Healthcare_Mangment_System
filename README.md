@@ -773,6 +773,7 @@ The chatbot enhances patient experience by providing instant assistance, reducin
 ## 👥 Contributors
 
 - **Peter Ashak** - Project Lead & Developer
+- **Sotir Usama** - Cloud Engineer & Build Manager
 
 ---
 
